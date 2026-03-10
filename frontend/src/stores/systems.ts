@@ -38,17 +38,20 @@ export default defineStore("systems", {
             this.fetchingSystems = true;
 
             try {
-                const [emulatorsRes, buildsRes] = await Promise.all([
-                    systemApi.getEmulators(),
-                    systemApi.getBuilds(),
-                ]);
+                const emulatorsRes = await systemApi.getEmulators();
                 this.allEmulators = emulatorsRes.data;
+            } catch (error) {
+                console.error("Failed to fetch emulators:", error);
+            }
+
+            try {
+                const buildsRes = await systemApi.getBuilds();
                 this.allBuilds = buildsRes.data;
             } catch (error) {
-                console.error(error);
-            } finally {
-                this.fetchingSystems = false;
+                console.error("Failed to fetch builds:", error);
             }
+
+            this.fetchingSystems = false;
         },
         setCurrentEmulator(emulator: Emulator) {
             this.currentEmulator = emulator;

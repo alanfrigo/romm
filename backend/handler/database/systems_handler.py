@@ -37,7 +37,7 @@ class DBSystemsHandler(DBBaseHandler):
     ) -> Sequence[Emulator]:
         return session.scalars(
             select(Emulator).order_by(Emulator.name.asc())
-        ).all()
+        ).unique().all()
 
     @begin_session
     def get_emulator_by_slug(

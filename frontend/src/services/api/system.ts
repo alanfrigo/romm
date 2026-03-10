@@ -83,6 +83,12 @@ async function deleteBuild(id: number) {
     return api.delete(`/systems/builds/${id}`);
 }
 
+async function scanSystems() {
+    return api.post<{ scanned_emulators: number; scanned_builds: number }>(
+        "/systems/scan"
+    );
+}
+
 export default {
     getEmulators,
     getEmulator,
@@ -92,4 +98,5 @@ export default {
     getBuild,
     updateBuild,
     deleteBuild,
+    scanSystems,
 };

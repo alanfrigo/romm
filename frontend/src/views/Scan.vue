@@ -14,6 +14,8 @@ import storeConfig from "@/stores/config";
 import storeHeartbeat, { type MetadataOption } from "@/stores/heartbeat";
 import storePlatforms from "@/stores/platforms";
 import storeScanning from "@/stores/scanning";
+import storeSystems from "@/stores/systems";
+import systemApi from "@/services/api/system";
 import { platformCategoryToIcon } from "@/utils";
 
 const LOCAL_STORAGE_METADATA_SOURCES_KEY = "scan.metadataSources";
@@ -29,6 +31,8 @@ const configStore = storeConfig();
 const { config } = storeToRefs(configStore);
 const heartbeat = storeHeartbeat();
 const platformsToScan = ref<number[]>([]);
+const scanningSystems = ref(false);
+const systemsScanResult = ref<{ scanned_emulators: number; scanned_builds: number } | null>(null);
 const panels = ref<number[]>([]);
 const scanLog = useTemplateRef<HTMLDivElement>("scan-log-ref");
 const expansionPanels = useTemplateRef<HTMLDivElement>("expansion-panels-ref");
@@ -160,6 +164,19 @@ socket.on("scan:done", (stats) => {
 
 async function stopScan() {
   socket.emit("scan:stop");
+}
+
+async function scanSystems() {
+  scanningSystems.value = true;
+  systemsScanResult.value = null;
+  try {
+    const { data } = await systemApi.scanSystems();
+    systemsScanResult.value = data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    scanningSystems.value = false;
+  }
 }
 </script>
 
@@ -512,6 +529,38 @@ async function stopScan() {
         >
           {{ t("scan.manage-library") }}
         </v-btn>
+        <v-btn
+          :disabled="scanningSystems"
+          :loading="scanningSystems"
+          rounded="4"
+          height="40"
+          class="ma-1"
+          @click="scanSystems"
+        >
+          <template #prepend>
+            <v-icon :color="scanningSystems ? '' : 'primary'">
+              mdi-chip
+            </v-icon>
+          </template>
+          Scan Systems
+          <template #loader>
+            <v-progress-circular
+              color="primary"
+              :width="2"
+              :size="20"
+              indeterminate
+            />
+          </template>
+        </v-btn>
+        <v-chip
+          v-if="systemsScanResult"
+          color="primary"
+          class="ma-1"
+          size="small"
+        >
+          {{ systemsScanResult.scanned_emulators }} emulators,
+          {{ systemsScanResult.scanned_builds }} builds
+        </v-chip>
         <div class="d-flex align-center">
           <v-alert
             v-if="metadataSources.length == 0"
