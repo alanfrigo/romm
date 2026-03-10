@@ -35,6 +35,9 @@ export const ROUTES = {
   METADATA_SOURCES: "metadata-sources",
   ADMINISTRATION: "administration",
   SERVER_STATS: "server-stats",
+  SYSTEMS: "systems",
+  EMULATOR_DETAIL: "emulator-detail",
+  BUILD_DETAIL: "build-detail",
   NOT_FOUND: "404",
   CONSOLE_HOME: "console-home",
   CONSOLE_PLATFORM: "console-platform",
@@ -135,6 +138,24 @@ const routes = [
         path: "collection/:collection",
         name: ROUTES.COLLECTION,
         component: () => import("@/views/Gallery/Collection/Collection.vue"),
+      },
+      {
+        path: "systems",
+        name: ROUTES.SYSTEMS,
+        meta: {
+          title: "Systems",
+        },
+        component: () => import("@/views/Gallery/Systems.vue"),
+      },
+      {
+        path: "systems/emulator/:id",
+        name: ROUTES.EMULATOR_DETAIL,
+        component: () => import("@/views/SystemDetails/EmulatorDetails.vue"),
+      },
+      {
+        path: "systems/build/:id",
+        name: ROUTES.BUILD_DETAIL,
+        component: () => import("@/views/SystemDetails/BuildDetails.vue"),
       },
       {
         path: "collection/virtual/:collection",

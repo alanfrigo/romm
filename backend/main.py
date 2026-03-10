@@ -41,6 +41,7 @@ from endpoints.screenshots import router as screenshots_router
 from endpoints.search import router as search_router
 from endpoints.states import router as states_router
 from endpoints.stats import router as stats_router
+from endpoints.systems import router as systems_router
 from endpoints.tasks import router as tasks_router
 from endpoints.user import router as user_router
 from handler.auth.hybrid_auth import HybridAuthBackend
@@ -134,6 +135,7 @@ app.include_router(stats_router, prefix="/api")
 app.include_router(raw_router, prefix="/api")
 app.include_router(screenshots_router, prefix="/api")
 app.include_router(firmware_router, prefix="/api")
+app.include_router(systems_router, prefix="/api")
 app.include_router(collections_router, prefix="/api")
 app.include_router(gamelist_router, prefix="/api")
 app.include_router(netplay_router, prefix="/api")

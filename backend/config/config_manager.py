@@ -111,6 +111,7 @@ class Config:
     PLATFORMS_VERSIONS: dict[str, str]
     ROMS_FOLDER_NAME: str
     FIRMWARE_FOLDER_NAME: str
+    SYSTEMS_FOLDER_NAME: str
     SKIP_HASH_CALCULATION: bool
     HIGH_PRIO_STRUCTURE_PATH: str
     EJS_DEBUG: bool
@@ -265,6 +266,9 @@ class ConfigManager:
             ),
             FIRMWARE_FOLDER_NAME=pydash.get(
                 self._raw_config, "filesystem.firmware_folder", "bios"
+            ),
+            SYSTEMS_FOLDER_NAME=pydash.get(
+                self._raw_config, "filesystem.systems_folder", "systems"
             ),
             GAMELIST_AUTO_EXPORT_ON_SCAN=pydash.get(
                 self._raw_config, "scan.export_gamelist", False
@@ -458,6 +462,18 @@ class ConfigManager:
             )
             sys.exit(3)
 
+        if not isinstance(self.config.SYSTEMS_FOLDER_NAME, str):
+            log.critical(
+                "Invalid config.yml: filesystem.systems_folder must be a string"
+            )
+            sys.exit(3)
+
+        if self.config.SYSTEMS_FOLDER_NAME == "":
+            log.critical(
+                "Invalid config.yml: filesystem.systems_folder cannot be an empty string"
+            )
+            sys.exit(3)
+
         if not isinstance(self.config.EJS_DEBUG, bool):
             log.critical("Invalid config.yml: emulatorjs.debug must be a boolean")
             sys.exit(3)
@@ -594,6 +610,7 @@ class ConfigManager:
             "filesystem": {
                 "roms_folder": self.config.ROMS_FOLDER_NAME,
                 "firmware_folder": self.config.FIRMWARE_FOLDER_NAME,
+                "systems_folder": self.config.SYSTEMS_FOLDER_NAME,
             },
             "system": {
                 "platforms": self.config.PLATFORMS_BINDING,

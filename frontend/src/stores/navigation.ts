@@ -7,6 +7,7 @@ const mainBarCollapsed = useLocalStorage("ui.mainBarCollapsed", false);
 const defaultNavigationState = {
   activePlatformsDrawer: false,
   activeCollectionsDrawer: false,
+  activeSystemsDrawer: false,
   activeSettingsDrawer: false,
   activePlatformInfoDrawer: false,
   activeCollectionInfoDrawer: false,
@@ -24,6 +25,10 @@ export default defineStore("navigation", {
     switchActiveCollectionsDrawer() {
       this.resetDrawersExcept("activeCollectionsDrawer");
       this.activeCollectionsDrawer = !this.activeCollectionsDrawer;
+    },
+    switchActiveSystemsDrawer() {
+      this.resetDrawersExcept("activeSystemsDrawer");
+      this.activeSystemsDrawer = !this.activeSystemsDrawer;
     },
     switchActiveSettingsDrawer() {
       this.resetDrawersExcept("activeSettingsDrawer");
@@ -63,6 +68,8 @@ export default defineStore("navigation", {
         drawer === "activeCollectionsDrawer"
           ? this.activeCollectionsDrawer
           : false;
+      this.activeSystemsDrawer =
+        drawer === "activeSystemsDrawer" ? this.activeSystemsDrawer : false;
       this.activeSettingsDrawer =
         drawer === "activeSettingsDrawer" ? this.activeSettingsDrawer : false;
       this.activePlatformInfoDrawer =

@@ -14,6 +14,8 @@ import PlatformsDrawer from "@/components/common/Navigation/PlatformsDrawer.vue"
 import ScanBtn from "@/components/common/Navigation/ScanBtn.vue";
 import SearchBtn from "@/components/common/Navigation/SearchBtn.vue";
 import SettingsDrawer from "@/components/common/Navigation/SettingsDrawer.vue";
+import SystemsBtn from "@/components/common/Navigation/SystemsBtn.vue";
+import SystemsDrawer from "@/components/common/Navigation/SystemsDrawer.vue";
 import UploadBtn from "@/components/common/Navigation/UploadBtn.vue";
 import UserBtn from "@/components/common/Navigation/UserBtn.vue";
 import storeNavigation from "@/stores/navigation";
@@ -63,6 +65,7 @@ function collapse() {
       <SearchBtn with-tag />
       <PlatformsBtn with-tag />
       <CollectionsBtn with-tag />
+      <SystemsBtn with-tag />
       <ScanBtn with-tag />
       <ConsoleModeBtn with-tag />
     </v-bottom-navigation>
@@ -107,6 +110,7 @@ function collapse() {
     <SearchBtn :with-tag="!mainBarCollapsed" rounded class="mt-4" block />
     <PlatformsBtn :with-tag="!mainBarCollapsed" rounded class="mt-2" block />
     <CollectionsBtn :with-tag="!mainBarCollapsed" rounded class="mt-2" block />
+    <SystemsBtn :with-tag="!mainBarCollapsed" rounded class="mt-2" block />
     <ScanBtn :with-tag="!mainBarCollapsed" rounded class="mt-2" block />
     <ConsoleModeBtn :with-tag="!mainBarCollapsed" rounded class="mt-2" block />
 
@@ -127,6 +131,7 @@ function collapse() {
 
   <PlatformsDrawer />
   <CollectionsDrawer />
+  <SystemsDrawer />
   <UploadRomDialog />
   <SettingsDrawer />
 </template>
